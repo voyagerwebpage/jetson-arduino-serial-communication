@@ -1,0 +1,23 @@
+body {
+    /* adding border to the webpage */
+    min-height: 100vh;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 1rem;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    font-size: 22px;
+    background-color: whitesmoke;
+}
+
+a {
+    color: rgb(126, 149, 234);
+}
+
+a:visited {
+    color: rgb(205, 106, 223);
+}
+
+.container {
+    font-size: 16px;
+  }

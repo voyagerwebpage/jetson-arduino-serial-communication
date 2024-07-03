@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Akshat G">
+    <link rel="icon" href="nvid_favicon.png" type="favicon">
+    <link rel="stylesheet" href="css/prism_python.css">
+    <link rel="stylesheet" href="css/prism_cpp.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Serial Communication</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            Configure Serial Communication
+        </h1>
+        <p>
+            Arduino Jeston Nano / Xavier NX Communication using Python via USB
+        </p>
+    </header>
+
+    <hr>
+
+    <main>
+        <section id="Introduction">
+            <p>
+                In our project using <a
+                    href="https://www.seeedstudio.com/NVIDIA-Jetson-Nano-Development-Kit-B01-p-4437.html"> Jetson
+                    Nano</a>, sometimes we need to retrieve data from the Arduino or send a command to control the MCU.
+                <br>
+                Methods of establishing connection between Arduino and Jetson Nano
+            <ul>
+                <li>
+                    You can use Arduino compatible boards with onboard WiFi and BLE, like <a
+                        href="https://www.seeedstudio.com/Wio-Terminal-p-4509.html">Wio Terminal</a> or an <a
+                        href="https://www.seeedstudio.com/W5500-Ethernet-Shield.html">ethernet shield</a> to communicate
+                    with Jetson Nano through the network.
+                </li>
+                <li>
+                    Establishing connection between Arduino and Jetson Nano using USB cable
+                </li>
+            </ul>
+            </p>
+        </section>
+
+        <hr>
+
+        <section id="usb_communication">
+            <h2>USB Connection</h2>
+            <p>
+                Firstly, connect your Arduino with Jetson Nano through USB cable. Then open the terminal on Jeston Nano.
+                Type in the following command.
+            </p>
+            <div class="container">
+                <div class="code-wrap">
+                    <pre>
+                        <code id="code" class="language-cpp">
+                               ls /dev/ttyA*
+                        </code>
+                    </pre>
+                </div>
+            </div>
+            <p>
+                If we get <strong style="font-family: monospace; font-size: 20px;">/dev/ttyACM0</strong>, it means the Arduino is recognized by our Jetson Nano because ttyACM0 will only show up when 2 USB devices are connected to each other.
+            </p>
+        </section>
+
+        <hr>
+
+        <section id="Install Python">
+            <h2>
+                Install Python
+            </h2>
+            <p>
+                To communicate with the Arduino we need to install python, first we will install <a href="https://pythonhosted.org/pyserial/">PySerial</a> using the <span style="font-family: monospace; font-size: 20px; background-color: #ffdddd; color: rgb(90, 1, 1);">pip3 install pyserial</span>.
+            </p>
+        </section>
+
+        <hr>
+
+        <section id="basic_code_structure">
+            <h2>Arduino and Jetson Code Structure</h2>
+            <ul>
+                <li>Arduino Code
+                    <div class="container">
+                        <div class="code-wrap">
+                            <pre>
+                                <code id="code" class="language-cpp">
+                                    void setup()
+                                    {
+                                      Serial.begin(119200);
+                                    }
+                                    
+                                    void loop()
+                                    {
+                                      if (Serial.available())
+                                      {
+                                        Serial.println("Hello Jetson!");
+                                      }
+                                    }
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </li>
+                <li> Jetson Code
+                    <div class="container">
+                        <div class="code-wrap">
+                            <pre>
+                                <code id="code" class="language-cpp">
+                                    import serial 
+                                    import time
+                                    
+                                    arduino = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
+                                    
+                                    
+                                    while True:
+                                        try:
+                                            data = arduino.readline()
+                                            if data:
+                                                print(data)
+                                                print('Hi Arduino')
+                                        except:
+                                            arduino.close() 
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <hr>
+
+        <section id="two_way_communication">
+            <h2>Two way Jetson &rightleftarrows; Arduino communication</h2>
+            <ul>
+                <li>
+                    <a href="arduino.html" target="_blank">Arduino Two Way Communication Code:</a> 
+                </li>
+                <li>
+                    <a href="jetson.html" target="_blank">Jetson Nano Two Way Communication Code: </a>
+                </li>
+            </ul>
+        </section>
+
+        <section id="invisible" style="display: none;">
+            <a href="https://www.seeedstudio.com/blog/2020/06/18/arduino-jeston-nano-xavier-nx-communication-using-python-via-usb-m/">Website</a>
+            <a href="https://www.youtube.com/watch?v=405mZ5o4K-w">yt</a>
+        </section>
+    </main>
+
+    <hr>
+
+    <footer>
+        <a href="#">Back to Top</a>
+        <br>
+        <br>
+        &lt;&lt;&lt; &copy;<a href="https://www.linkedin.com/in/akshat-gururaj/" target="_blank">Akshat G</a>&gt;&gt;&gt;
+    </footer>
+</body>
+
+<script src="prism_cpp.js"></script>
+
+</html>
